@@ -21,3 +21,7 @@ sameWeight(X,Y) :-
        W1 = W2;
        false.
 
+mergeable(X,Y) :-
+        connected(X,Y),
+        sameWeight(X,Y);
+        false.
