@@ -1,5 +1,7 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; -*- */
 
+/*ugraphs, wgraphs*/
+
 edge(1,2).
 edge(1,3).
 edge(2,3).
@@ -16,12 +18,10 @@ connected(X,Y) :-
         edge(Y,X).
 
 sameWeight(X,Y) :-
-       weight(X,W1),
-       weight(Y,W2),
-       W1 = W2;
-       false.
+       weight(X,W),
+       weight(Y,W).
 
 mergeable(X,Y) :-
         connected(X,Y),
-        sameWeight(X,Y);
-        false.
+        sameWeight(X,Y).
+
