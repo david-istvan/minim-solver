@@ -1,77 +1,54 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; -*- */
 
-/*ugraphs, wgraphs*/
-
-:- use_module(library(chr)).
 :- use_module(library(lists)).
 
-handler minimize.
-constraints minimize/2.
-
-minimize @ minimize(WL, EL) <=> mergeWeightList(WL, EL) | true.
-
-notMinimized(WL):-
-        length(WL, L),
-        L>1.
-
-isConnected(X, Y, EL):-
-        select([X,Y], EL, _).
-
-mergeNodes(X, Y, EL, ID, NEL):-
-        writeln('current edge list: ' + EL),
+minimize(G0, G):-
         (
-           select([X,Z1], EL, R1), Z1\=Y ->
-                append(R1, [[ID, Z1]], R1),
-                select([X, Y], R1, NEL),
-                writeln('new edge list: '+NEL);
-           select([Z2,X], EL, R2), Z2\=Y ->
-                append(R2, [[Z2, ID]], R1),
-                select([X, Y], R1, NEL),
-                writeln('new edge list: '+NEL);
-           select([Y,Z3], EL, R3), Z3\=X ->
-                append(R3, [[ID, Z3]], R1),
-                select([X, Y], R1, NEL),
-                writeln('new edge list: '+NEL);
-           select([Z4,Y], EL, R4), Z4\=X ->                
-                append(R4, [[Z4, ID]], R1),
-                select([X, Y], R1, NEL),
-                writeln('new edge list: '+NEL);              
-           select([X, Y], EL, NEL) ->
-                writeln('new edge list: '+NEL);
-           select([Y, X], EL, NEL) ->
-                writeln('new edge list: '+NEL)).
+           mergeable(G0, E)
+        ->
+           merge(E, G0, G1),
+           minimize(G1, G)
+        ;
+           G= G0
+        ).
 
-mergeWeightList(WL, EL):-
-        writeln('current weight list: ' + WL),
-        select([X,W], WL, R1),
-        select([Y,W], R1, R2),
-        %isConnected(X, Y, EL),
+mergeable(WL+EL, E):-
+        mergeable(WL, EL, E).
+
+mergeable(WL, EL, E):-
+        member((X-W), WL),
+        member((Y-W), WL),
+        X\=Y,
+        E = (X-Y),
+        member(E, EL).
+
+merge(X-Y, WL+EL, G1):-
+        NID is X+10,
+        merge_weights(X, Y, NID, WL, WL1),
+        merge_edges(X, Y, NID, EL, EL1),
+        G1 = WL1+EL1.
+
+merge_weights(X, Y, NID, WL0, WL1):-
+        select((X-W), WL0, R1),
+        select((Y-W), R1, R2),
         X<Y,
-        W2 is W+1,
-        ID is X+10,
-        mergeNodes(X, Y, EL, ID, NEL),
-        append(R2, [[ID, W2]], NWL),
-        writeln('new weight list: ' + NWL),
-        mergeWeightList(NWL, NEL).
+        NW is W+1,
+        append(R2, (NID-NW), WL1).
 
-writeln(Str) :-
-        write(Str), nl.
+merge_edges(X, Y, NID, EL0, EL1):-
+        (
+           (member((X-Z), EL0);member((Z-X), EL0)), Z\=Y
+        ->
+           replace_edge(X, NID, Z, EL0, R1),
+           select((X-Y), R1, EL1)
+        ;
+           (member((Y-Z), EL0);member((Z-Y), EL0)), Z\=X
+        ->
+           replace_edge(Y, NID, Z, EL0, R1),
+           select((X-Y), R1, EL1)
+        )
+        .
 
-/*
-connected(X,Y) :-
-        edge(X,Y);
-        edge(Y,X).
-
-sameWeight(X,Y) :-
-       weight(X,W),
-       weight(Y,W).
-
-mergeable(X,Y) :-
-        connected(X,Y),
-        sameWeight(X,Y).
-*/
-factorial(0,1).
-factorial(X,Y) :-
-        X1 is X - 1,
-        factorial(X1,Z),
-        Y is Z*X,!.
+replace_edge(ID0, ID1, Z, EL0, EL1):-
+        select((ID0-Z), EL0, R1),
+        append((ID1-Z), R1, EL1).
