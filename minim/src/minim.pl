@@ -5,13 +5,16 @@
 
 minimize(G0, G):-
         (
-           mergeable(G0, E)
+           not(mergeable(G0, _E))
         ->
+           G=G0
+        ;
+           mergeable(G0, E),
            merge(E, G0, G1),
            minimize(G1, G)
-        ;
-           G=G0
         ).
+
+not(P) :- (call(P) -> fail ; true).
 
 mergeable(WL+EL, E):-
         mergeable(WL, EL, E).
@@ -19,7 +22,7 @@ mergeable(WL+EL, E):-
 mergeable(WL, EL, E):-
         member((X-W), WL),
         member((Y-W), WL),
-        X\=Y,
+        X<Y,
         E = (X-Y),
         member(E, EL).
 
@@ -30,11 +33,12 @@ merge(X-Y, WL+EL, G1):-
         G1 = WL1+EL1.
 
 merge_weights(X, Y, NID, WL0, WL1):-
-        select((X-W), WL0, R1),
-        select((Y-W), R1, R2),
-        X<Y,
+        memberchk((X-W), WL0),
+        memberchk((Y-W), WL0),
         NW is W+1,
-        append(R2, (NID-NW), WL1).
+        delete(WL0, (X-W), R1),
+        delete(R1, (Y-W), R2),
+        append(R2, [(NID-NW)], WL1).
 
 merge_edges(X, Y, NID, EL0, EL1):-
         (
@@ -52,4 +56,4 @@ merge_edges(X, Y, NID, EL0, EL1):-
 
 replace_edge(ID0, ID1, Z, EL0, EL1):-
         select((ID0-Z), EL0, R1),
-        append(R1, (ID1-Z), EL1).
+        append(R1, [(ID1-Z)], EL1).
