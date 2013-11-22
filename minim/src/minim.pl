@@ -1,6 +1,7 @@
 /* -*- Mode:Prolog; coding:iso-8859-1; -*- */
 
 :- use_module(library(lists)).
+:- use_module(utils).
 
 minimize(G0, G):-
         (
@@ -9,7 +10,7 @@ minimize(G0, G):-
            merge(E, G0, G1),
            minimize(G1, G)
         ;
-           G= G0
+           G=G0
         ).
 
 mergeable(WL+EL, E):-
@@ -23,9 +24,9 @@ mergeable(WL, EL, E):-
         member(E, EL).
 
 merge(X-Y, WL+EL, G1):-
-        NID is X+10,
-        merge_weights(X, Y, NID, WL, WL1),
-        merge_edges(X, Y, NID, EL, EL1),
+        next_id(WL, NextId),
+        merge_weights(X, Y, NextId, WL, WL1),
+        merge_edges(X, Y, NextId, EL, EL1),
         G1 = WL1+EL1.
 
 merge_weights(X, Y, NID, WL0, WL1):-
