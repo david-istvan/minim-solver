@@ -51,4 +51,4 @@ merge_edges(X, Y, NID, EL0, EL1):-
 
 replace_edge(ID0, ID1, Z, EL0, EL1):-
         select((ID0-Z), EL0, R1),
-        append((ID1-Z), R1, EL1).
+        append(R1, (ID1-Z), EL1).
