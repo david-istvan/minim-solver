@@ -5,29 +5,29 @@
 
 minimize(G0, G):-
         (
-         %  write('input graph: '), write(G0), nl,
+           write('input graph: '), write(G0), nl,
            not(mergeable(G0, _E))
         ->
-          % write('not mergeable: '), write(G0), nl,
+           write('not mergeable: '), write(G0), nl,
            G=G0
         ;
            mergeable(G0, E),
            merge(E, G0, G1),
-          % write('new graph : '), write(G1), nl,
+           write('new graph : '), write(G1), nl,
            minimize(G1, G)
         ).
 
 not(P) :- (call(P) -> fail ; true).
 
 mergeable(WL+EL, E):-
-        %write('mergeability check...'), write('weights:'),write(WL),write('edges:'),write(EL), nl,
+        write('mergeability check...'), write('weights:'),write(WL),write('edges:'),write(EL), nl,
         member((X-W), WL),
         member((Y-W), WL),
         E=(X-Y),
         member(E, EL).
 
 merge(X-Y, WL+EL, G1):-
-        %write('merging: '),write(X), write(' with '),write(Y),write(' in '),write('WL: '),write(WL),write('EL: '),write(EL),nl,
+        write('merging: '),write(X), write(' with '),write(Y),write(' in '),write('WL: '),write(WL),write('EL: '),write(EL),nl,
         next_id(WL, NextId),
         merge_weights(X, Y, NextId, WL, WL1),
         merge_edges(X, Y, NextId, EL, EL1),
