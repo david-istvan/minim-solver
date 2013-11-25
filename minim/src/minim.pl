@@ -74,8 +74,8 @@ redirect_edges(X, Y, NID, EL0, EL1):-
            EL1 = EL0
         ;
            redirectable_edge(X, Y, EL0, E),
-           redirect_edge(E, NID, EL0, EL1),
-           redirect_edges(X, Y, NID, EL1, _)
+           redirect_edge(E, NID, EL0, EL2),
+           redirect_edges(X, Y, NID, EL2, EL1)
         )
         .
 
@@ -100,6 +100,7 @@ redirectable_edge(X, Y, EL, E):-
            E = (Y-Z)
         ).
 
+% Y denotes the node out of the cluster 
 redirect_edge(X-Y, NID, EL0, EL1):-
         (
            member((X-Y), EL0)
