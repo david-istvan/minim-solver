@@ -36,10 +36,18 @@ yes
 ##### Examples for the non-trivial cases (minimization requires backtracking)
 
 ![ScreenShot](http://david-istvan.github.io/images/minim/g4.PNG)
-This case should be solved as (20+30+40) + (10+50+60), resulting a minimal graph with the size of one. The algorithm, however, 
-merges nodes #10 and #20 in the first step and terminates without finding the minimal solution.
+This case should be solved as (20+30+40) + (10+50+60), resulting a minimal graph with the size of one.
+If the input isn't ordered correctly, however, the algorithm won't find the minimal solution:
 ```prolog
 | ?- minimize([(10-1), (20-1), (30-1), (40-2), (50-1), (60-2)] + [(10-20), (20-30), (30-40), (40-50), (50-60), (10-50)], G).
 G = [30-1,40-2,50-1,60-2,61-2]+[30-40,40-50,50-60,61-50,61-30] ?
 no
 ```
+Here, the algorithm merges nodes #10 and #20 in the first step and terminates without finding the minimal solution.
+
+```prolog
+| ?- minimize([(20-1), (30-1), (40-2), (10-1), (50-1), (60-2)] + [(10-20), (20-30), (30-40), (40-50), (50-60), (10-50)], G).
+G = [65-4]+[] ? 
+yes
+```
+This one will, although, succeed. (Mind the ordering of the weight list.)
