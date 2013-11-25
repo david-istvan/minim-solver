@@ -41,6 +41,8 @@ merge_weights(X, Y, NID, WL0, WL1):-
         select((Y-W), R1, R2),
         append(R2, [(NID-NW)], WL1).
 
+
+/*
 merge_edges(X, Y, NID, EL0, EL1):-
         (
            (member((X-Z), EL0);member((Z-X), EL0)), Z\=Y
@@ -58,7 +60,69 @@ merge_edges(X, Y, NID, EL0, EL1):-
            select((X-Y), EL0, EL1)
         )
         .
+*/
 
-replace_edge(ID0, ID1, Z, EL0, EL1):-
-        select((ID0-Z), EL0, R1),
-        append(R1, [(ID1-Z)], EL1).
+merge_edges(X, Y, NID, EL0, EL1):-
+        del((X-Y), EL0, R1),
+        redirect_edges(X, Y, NID, R1, R2),
+        remove_selfedges(R2, EL1).
+
+redirect_edges(X, Y, NID, EL0, EL1):-
+        (
+           not(redirectable_edge(X, Y, EL0, _))
+        ->
+           EL1 = EL0
+        ;
+           redirectable_edge(X, Y, EL0, E),
+           redirect_edge(E, NID, EL0, EL1),
+           redirect_edges(X, Y, NID, EL1, _)
+        )
+        .
+
+
+%note: always return the 3rd node at the last position!
+redirectable_edge(X, Y, EL, E):-
+        (
+           member((X-Z), EL)
+        ->
+           E = (X-Z)
+        ;
+           member((Y-Z), EL)
+        ->
+           E = (Y-Z)
+        ;
+           member((Z-X), EL)
+        ->
+           E = (X-Z)
+        ;
+           member((Z-Y), EL)
+        ->
+           E = (Y-Z)
+        ).
+
+redirect_edge(X-Y, NID, EL0, EL1):-
+        (
+           member((X-Y), EL0)
+        ->
+           del((X-Y), EL0, R1),
+           append(R1, [(NID-Y)], EL1)
+        ;
+           member((Y-X), EL0)
+        ->
+           del((Y-X), EL0, R1),
+           append(R1, [(NID-Y)], EL1)
+        )
+        .
+
+remove_selfedges(EL0, EL1):-
+        (
+           member((X-X), EL0)
+        ->
+           del((X-X), EL0, EL1)
+        )
+        .
+
+del(X,[X|Tail],Tail).
+    
+del(X,[Y|Tail],[Y|Tail1]):-
+        del(X,Tail,Tail1).
