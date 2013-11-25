@@ -12,21 +12,21 @@ These pages usually cover the obstacles to overcome when getting started:
 
 ##### Examples for the trivial cases (minimization is straightforward)
 
-![ScreenShot](http://david-istvan.github.io/images/minim/g1.PNG)
+![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g1.PNG)
 ```prolog
 | ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40)], G).
 G = [43-4]+[] ?
 yes
 ```
 
-![ScreenShot](http://david-istvan.github.io/images/minim/g2.PNG)
+![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g2.PNG)
 ```prolog
 | ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (40-20)], G).
 G = [43-4]+[] ?
 yes
 ```
 
-![ScreenShot](http://david-istvan.github.io/images/minim/g3.PNG)
+![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g3.PNG)
 ```prolog
 | ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (30-10), (40-20)], G).
 G = [43-4]+[] ?
@@ -35,7 +35,7 @@ yes
 
 ##### Examples for the non-trivial cases (minimization requires backtracking)
 
-![ScreenShot](http://david-istvan.github.io/images/minim/g4.PNG)
+![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g4.PNG)
 This case should be solved as (20+30+40) + (10+50+60), resulting a minimal graph with the size of one.
 If the input isn't ordered correctly, however, the algorithm won't find the minimal solution:
 ```prolog
