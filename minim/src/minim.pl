@@ -41,27 +41,6 @@ merge_weights(X, Y, NID, WL0, WL1):-
         select((Y-W), R1, R2),
         append(R2, [(NID-NW)], WL1).
 
-
-/*
-merge_edges(X, Y, NID, EL0, EL1):-
-        (
-           (member((X-Z), EL0);member((Z-X), EL0)), Z\=Y
-        ->
-           replace_edge(X, NID, Z, EL0, R1),
-           select((X-Y), R1, EL1)
-        ;
-           (member((Y-Z), EL0);member((Z-Y), EL0)), Z\=X
-        ->
-           replace_edge(Y, NID, Z, EL0, R1),
-           select((X-Y), R1, EL1)
-        ;
-           (member((X-Y), EL0);member((Y-X), EL0))
-        ->
-           select((X-Y), EL0, EL1)
-        )
-        .
-*/
-
 merge_edges(X, Y, NID, EL0, EL1):-
         del((X-Y), EL0, R1),
         redirect_edges(X, Y, NID, R1, R2),
@@ -117,8 +96,10 @@ redirect_edge(X-Y, NID, EL0, EL1):-
 
 remove_selfedges(EL0, EL1):-
         (
-           member((X-X), EL0)
+           not(member((X-X), EL0))
         ->
+           EL1=EL0
+        ;
            del((X-X), EL0, EL1)
         )
         .
