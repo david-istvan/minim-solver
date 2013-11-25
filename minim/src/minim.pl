@@ -103,8 +103,3 @@ remove_selfedges(EL0, EL1):-
            del((X-X), EL0, EL1)
         )
         .
-
-del(X,[X|Tail],Tail).
-    
-del(X,[Y|Tail],[Y|Tail1]):-
-        del(X,Tail,Tail1).
