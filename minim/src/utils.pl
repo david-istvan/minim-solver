@@ -1,4 +1,4 @@
-:-  module(utils, [next_id/2, del/3]).
+:-  module(utils, [next_id/2, del/3, size/2, findMinimalGraph/2]).
 
 :- use_module(library(lists)).
 
@@ -14,3 +14,22 @@ ids([A-_B|Pairs], [A|Keys]) :-
 del(X,[X|Tail],Tail).
 del(X,[Y|Tail],[Y|Tail1]):-
         del(X,Tail,Tail1).
+
+size(WL+_, S):-
+        length(WL, S).
+
+findMinimalGraph([G|Gs], Min) :-
+    findMinimalGraph(Gs, G, Min).
+
+findMinimalGraph([], Min, Min).
+findMinimalGraph([G|Gs], G0, Min) :-
+    size(G0, S0),
+    size(G, S),
+    (
+       S0<S
+    ->
+       G1 = G0
+    ;
+       G1 = G
+    ),
+    findMinimalGraph(Gs, G1, Min).

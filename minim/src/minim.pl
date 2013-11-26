@@ -3,6 +3,16 @@
 :- use_module(library(lists)).
 :- use_module(utils).
 
+optimize(G, S):-
+        findall(X, minimize(G, X), C),
+        findMinimal(C, S)
+        .
+      
+findMinimal(GL, S):-
+        findMinimalGraph(GL, M),
+        size(M, S)
+        .
+
 minimize(G0, G):-
         (
            write('input graph: '), write(G0), nl,
