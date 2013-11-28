@@ -15,11 +15,11 @@ del(X,[X|Tail],Tail).
 del(X,[Y|Tail],[Y|Tail1]):-
         del(X,Tail,Tail1).
 
-size(WL+_, S):-
-        length(WL, S).
-
 findMinimalGraph([G|Gs], Min) :-
     findMinimalGraph(Gs, G, Min).
+
+size(WL+_, S):-
+        length(WL, S).
 
 findMinimalGraph([], Min, Min).
 findMinimalGraph([G|Gs], G0, Min) :-
