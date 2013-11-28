@@ -1,6 +1,15 @@
-:-  module(utils, [next_id/3, del/3, size/2, findMinimalGraph/2]).
+:-  module(utils, [log/2, set_log/1, next_id/3, del/3, size/2, findMinimalGraph/2]).
 
 :- use_module(library(lists)).
+
+
+log(Format, Terms) :-
+        (   bb_get(log, on) -> format(Format, Terms)
+        ;   true
+        ).
+
+set_log(Flag) :- % Flag = on or off
+        bb_put(log, Flag).
 
 next_id(WL, LID, NextId):-
         (

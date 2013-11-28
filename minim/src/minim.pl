@@ -27,15 +27,15 @@ findMinimalSize(GL, S):-
  */
 minimize(G0, G):-
         (
-           write('input graph: '), write(G0), nl,
+           log('>>>MINIMIZE/2... input graph: ~w\n', G0),
            not(mergeable(G0, _E))
         ->
-           write('not mergeable: '), write(G0), nl,
+           log('>>>MINIMIZE/2... not mergeable: ~w\n', G0),
            G=G0
         ;
            mergeable(G0, E),
            merge(E, G0, G1),
-           write('new graph : '), write(G1), nl,
+           log('>>>MINIMIZE/2... new graph: ~w\n', G1),
            minimize(G1, G)
         ).
 not(P) :- (call(P) -> fail ; true).
@@ -46,7 +46,7 @@ not(P) :- (call(P) -> fail ; true).
  * edge for merging.
  */
 mergeable(WL+EL+_, E):-
-        write('mergeability check...'), write('weights:'),write(WL),write('edges:'),write(EL), nl,
+        log('>>>MERGEABLE/2... mergeability check: WL: ~w, EL: ~w\n', [WL,EL]),
         member((X-W), WL),
         member((Y-W), WL),
         E=(X-Y),
@@ -59,7 +59,7 @@ mergeable(WL+EL+_, E):-
  * -merging the edge list
  */
 merge(X-Y, WL+EL+LID, G1):-
-        write('merging: '),write(X), write(' with '),write(Y),write(' in '),write('WL: '),write(WL),write('EL: '),write(EL),nl,
+        log('>>>MERGE/3... merging ~w with ~w in ~w + ~w\n', [X, Y, WL, EL]),
         next_id(WL, LID, NextId),
         mergeWeights(X, Y, NextId, WL, WL1),
         mergeEdges(X, Y, NextId, EL, EL1),
