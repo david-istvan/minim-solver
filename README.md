@@ -14,22 +14,22 @@ These pages usually cover the obstacles to overcome when getting started:
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g1.PNG)
 ```prolog
-| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40)], G).
-G = [43-4]+[] ?
+| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40)] + 0, G).
+G = [43-4]+[]+43 ? 
 yes
 ```
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g2.PNG)
 ```prolog
-| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (40-20)], G).
-G = [43-4]+[] ?
+| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (40-20)] + 0, G).
+G = [43-4]+[]+43 ?
 yes
 ```
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g3.PNG)
 ```prolog
-| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (30-10), (40-20)], G).
-G = [43-4]+[] ?
+| ?- minimize([(10-1), (20-1), (30-2), (40-3)] + [(10-20), (20-30), (30-40), (30-10), (40-20)] + 0, G).
+G = [43-4]+[]+43 ?
 yes
 ```
 
@@ -37,9 +37,9 @@ yes
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g4.PNG)
 This case should be solved as (20+30+40) + (10+50+60), resulting a minimal graph with the size of one.
-Backtracking is the key for finding the globally best (minimal) graph, which is controlled in the optimize/2 predicate.
+Backtracking is the key for finding the globally best (minimal) graph, which is controlled in the findMinimalSolution/2 predicate.
 ```prolog
-| ?- optimize([(20-1), (30-1), (40-2), (10-1), (50-1), (60-2)] + [(10-20), (20-30), (30-40), (40-50), (50-60), (10-50)], S).
+| ?- findMinimalSolution([(20-1), (30-1), (40-2), (10-1), (50-1), (60-2)] + [(10-20), (20-30), (30-40), (40-50), (50-60), (10-50)] + 0, S).
 S = 1 ? 
 yes
 ```
