@@ -76,7 +76,7 @@ mergeWeights(X, Y, NID, WL0, WL1):-
         NW is W+1,
         select((X-W), WL0, R1),
         select((Y-W), R1, R2),
-        append(R2, [(NID-NW)], WL1).
+        WL1 = [(NID-NW)|R2].
 
 /*
  * Merges the edges. First, it deletes the edge between
@@ -138,12 +138,12 @@ redirectEdge(X-Y, NID, EL0, EL1):-
            member((X-Y), EL0)
         ->
            del((X-Y), EL0, R1),
-           append(R1, [(NID-Y)], EL1)
+           EL1 = [(NID-Y)|R1]
         ;
            member((Y-X), EL0)
         ->
            del((Y-X), EL0, R1),
-           append(R1, [(NID-Y)], EL1)
+           EL1 = [(NID-Y)|R1]
         ).
 
 /*
