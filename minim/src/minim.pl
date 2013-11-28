@@ -45,7 +45,7 @@ not(P) :- (call(P) -> fail ; true).
  * the given graph structure and returns a possible
  * edge for merging.
  */
-mergeable(WL+EL, E):-
+mergeable(WL+EL+_, E):-
         write('mergeability check...'), write('weights:'),write(WL),write('edges:'),write(EL), nl,
         member((X-W), WL),
         member((Y-W), WL),
@@ -58,12 +58,12 @@ mergeable(WL+EL, E):-
  * -merging the weight list
  * -merging the edge list
  */
-merge(X-Y, WL+EL, G1):-
+merge(X-Y, WL+EL+LID, G1):-
         write('merging: '),write(X), write(' with '),write(Y),write(' in '),write('WL: '),write(WL),write('EL: '),write(EL),nl,
-        next_id(WL, NextId),
+        next_id(WL, LID, NextId),
         mergeWeights(X, Y, NextId, WL, WL1),
         mergeEdges(X, Y, NextId, EL, EL1),
-        G1 = WL1+EL1.
+        G1 = WL1+EL1+NextId.
 
 /*
  * Merges the weight list by selecting two nodes
