@@ -10,3 +10,6 @@ dummy(X+Y, S):-
 
 dummy2(X-Y, S):-
         S = X.
+
+testGraph(W+L+Z, S):-
+        S=W.
