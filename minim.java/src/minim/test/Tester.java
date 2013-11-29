@@ -1,6 +1,7 @@
-package minim.tester;
+package minim.test;
 
-import minim.tester.Minim.Graph;
+import minim.java.Minim;
+import minim.java.Minim.Graph;
 import se.sics.jasper.SPException;
 
 public class Tester {

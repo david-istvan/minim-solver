@@ -1,4 +1,4 @@
-package minim.tester;
+package minim.test;
 
 import java.util.HashMap;
 import java.util.Map;
