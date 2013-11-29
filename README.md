@@ -1,10 +1,10 @@
 minim-solver
 ============
 
-Aims at finding the optimal solution for the given snapshot of the [Minim game](http://www.kongregate.com/games/atomiccicada/minim).
+This project delivers a Prolog-based program for finding the size of the optimal solution (the smallest reachable graph) from a given state of the [Minim game](http://www.kongregate.com/games/atomiccicada/minim). The state is represented by the list of the node weights and the list of edges.
+ * [minim](https://github.com/david-istvan/minim-solver/tree/master/minim) contains the Prolog code. ([SICStus Prolog](http://sicstus.sics.se/) was used.)
+ * [minim.java](https://github.com/david-istvan/minim-solver/tree/master/minim.java) contains an API for reaching the Prolog code from Java. (Based on the [Jasper](http://sicstus.sics.se/sicstus/docs/3.7.1/html/sicstus_12.html) Prolog-Java interface).
 
-
-The solver uses [SICStus Prolog](http://sicstus.sics.se/) and Java.
 These pages usually cover the obstacles to overcome when getting started:
  * [Fundamentals on mixing Java and Prolog via the Jasper library](http://sicstus.sics.se/sicstus/docs/3.7.1/html/sicstus_12.html)
  * ["java.lang.UnsatisfiedLinkError: no spnative in java.library.path"](http://sicstus.sics.se/sicstus/docs/4.0.8/html/relnotes.html/Running-SICStus-from-Java.html)
