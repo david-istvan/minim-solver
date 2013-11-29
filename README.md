@@ -10,7 +10,10 @@ These pages usually cover the obstacles to overcome when getting started:
  * ["java.lang.UnsatisfiedLinkError: no spnative in java.library.path"](http://sicstus.sics.se/sicstus/docs/4.0.8/html/relnotes.html/Running-SICStus-from-Java.html)
 
 
-##### Examples for the trivial cases (minimization is straightforward)
+Examples
+========
+
+##### Trivial cases (minimization is straightforward)
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g1.PNG)
 ```prolog
@@ -33,7 +36,7 @@ G = [43-4]+[]+43 ?
 yes
 ```
 
-##### Examples for the non-trivial cases (minimization requires backtracking)
+##### Non-trivial cases (minimization requires backtracking)
 
 ![ScreenShot](https://dl.dropboxusercontent.com/u/44011277/bme/study/aflp/minim/g4.PNG)
 This case should be solved as (20+30+40) + (10+50+60), resulting a minimal graph with the size of one.
