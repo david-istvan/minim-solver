@@ -11,7 +11,7 @@ These pages usually cover the obstacles to overcome when getting started:
 
 
 Examples
-========
+--------
 
 ##### Trivial cases (minimization is straightforward)
 
