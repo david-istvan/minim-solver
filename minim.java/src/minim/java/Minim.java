@@ -69,8 +69,7 @@ public class Minim {
 		SPTerm graphTerm = constructGraphStruct(weightList, edgeList);
 
 		SPTerm size = new SPTerm(sp).putVariable();
-		SPQuery query = sp.openQuery(new SPPredicate(sp, PREDICATE, 2, ""),
-				new SPTerm[] { graphTerm, size });
+		SPQuery query = sp.openQuery(new SPPredicate(sp, PREDICATE, 2, ""), new SPTerm[] { graphTerm, size });
 
 		while (query.nextSolution()) {
 			return Integer.parseInt(size.toString());
@@ -99,16 +98,15 @@ public class Minim {
 	}
 
 	private SPTerm constructGraphStruct(SPTerm wl, SPTerm el) throws ConversionFailedException, IllegalTermException {
-		List<SPTerm> tmp = Lists.newArrayList();
-		tmp.add(wl);
-		tmp.add(el);
-		SPTerm weightAndEdgesTerm = new SPTerm(sp, FUNCTOR_GRAPH, tmp.toArray(new SPTerm[tmp.size()]));
+		SPTerm[] tmp = new SPTerm[2];
+		tmp[0] = wl;
+		tmp[1] = el;
+		SPTerm weightAndEdgesTerm = new SPTerm(sp, FUNCTOR_GRAPH, tmp);
 
-		tmp = Lists.newArrayList();
-		tmp.add(weightAndEdgesTerm);
-		tmp.add(new SPTerm(sp, 0));
+		tmp[0] = weightAndEdgesTerm;
+		tmp[1] = new SPTerm(sp, 0);
 
-		return new SPTerm(sp, FUNCTOR_GRAPH, tmp.toArray(new SPTerm[tmp.size()]));
+		return new SPTerm(sp, FUNCTOR_GRAPH, tmp);
 	}
 
 	public SPTerm buildListTerm(List<SPTerm> terms) throws ConversionFailedException, IllegalTermException {
@@ -122,15 +120,6 @@ public class Minim {
 		return listTerm;
 	}
 
-	private SPTerm addOtherTerms(SICStus sp, SPTerm listTerm, SPTerm nextTerm) throws ConversionFailedException,
-			IllegalTermException {
-		SPTerm[] tmp = new SPTerm[2];
-		tmp[0] = nextTerm;
-		tmp[1] = listTerm;
-		SPTerm newListTerm = new SPTerm(sp, FUNCTOR_LIST, tmp);
-		return newListTerm;
-	}
-
 	private SPTerm getLastListTerm(SICStus sp, SPTerm term) throws ConversionFailedException, IllegalTermException {
 		SPTerm emptyList = new SPTerm(sp).putEmptyList();
 		SPTerm[] tmp = new SPTerm[2];
@@ -138,5 +127,14 @@ public class Minim {
 		tmp[1] = emptyList;
 		SPTerm lastListTerm = new SPTerm(sp, FUNCTOR_LIST, tmp);
 		return lastListTerm;
+	}
+
+	private SPTerm addOtherTerms(SICStus sp, SPTerm listTerm, SPTerm nextTerm) throws ConversionFailedException,
+			IllegalTermException {
+		SPTerm[] tmp = new SPTerm[2];
+		tmp[0] = nextTerm;
+		tmp[1] = listTerm;
+		SPTerm newListTerm = new SPTerm(sp, FUNCTOR_LIST, tmp);
+		return newListTerm;
 	}
 }
