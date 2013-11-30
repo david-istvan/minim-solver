@@ -1,0 +1,134 @@
+                                                                     
+                                                                     
+                                                                     
+                                             
+---------------------------------------------------------------------------
+		  Alkalmazott Funkcionális és Logikai Programozás
+			       CLPFD gyakorlat
+
+			       2012. 12. 06.
+---------------------------------------------------------------------------
+
+Írd meg az alábbi fejkommenteknek megfelelõ Prolog eljárásokat!  Törekedj
+minél hatékonyabb megoldásra! Használd a SICStus clpfd könyvtárát!
+
+A 3. feladattól kezdve szükség lehet a reifikáció ill. logikai
+korlátok használatára, segítségül alább megismételjük az ezekrõl szóló
+legfontosabb tudnivalókat.
+
+--- REIFIKÁCIÓ: KORLÁTOK TÜKRÖZÉSE --- 
+
+Egy korlát tükrözése (reifikációja):
+
+ - a korlát igazságértékének "tükrözése" egy 0-1 értékû korlát-változóban;
+   jelölése: C #<=> B, jelentése: B tartománya 0..1, és B csakkor 1, ha C
+   igaz.
+ - példa: '(X #>= 3) #<=> B' jelentése:  B az  X >= 3 egyenlõség
+   igazságértéke (B eleve a 0..1 intervallumra szûkül, 0 = hamis, 
+   1 = igaz). 
+
+Megjegyzések
+
+ - Az ún. formula-korlátok (az eddig ismertetett aritmetikai és
+   halmaz-korlátok) mind tükrözhetõek. 
+ - A globális korlátok (pl. all_different/1, all_distinct/1) nem
+   tükrözhetõek. 
+ - A tükrözött korlátok is "közönséges" korlátok, csak definíciójuk és
+   végrehajtásuk módja speciális.  
+ - Példa: a 0..5 tartományon a (X #>= 3) #<=> B korlát teljesen megegyezik
+   a B #= X/3 korláttal. 
+
+--- LOGIKAI KORLÁTOK --- 
+
+Logikai korlát argumentuma lehet:
+
+ - egy B változó, B automatikusan a 0..1 tartományra szûkül;
+ - egy tetszõleges tükrözhetõ aritmetikai- vagy halmazkorlát;
+ - egy tetszõleges logikai korlát.
+
+A logikai korlátok:
+
+#\ Q                negáció
+P #/\ Q             konjunkció  
+P #\ Q              kizáró vagy 
+P #\/ Q             diszjunkció 
+P #=> Q             implikáció  
+Q #<= P             implikáció  
+P #<=> Q            ekvivalencia
+
+
+Az 5. feladat megoldását megelõzõen javasoljuk "lakótelepi
+panoráma" típusu rejtvények megoldását, ilyenek találhatók pl. itt: 
+
+http://5mp.eu/fajlok/logikairejtveny/lakotelep1b_www.5mp.eu_.pdf
+http://5mp.eu/fajlok/logikairejtveny/lakotelep.560.568_www.5mp.eu_.pdf
+
+   
+
+1. Egy listát N-növõnek hívunk, ha mindegyik eleme legalább N-nel
+   nagyobb a megelõzõ elemnél.
+
+   % novo(+Lista, +N): A Lista lista N-növõ.
+   % Az eljárás ne hozzon létre választási pontot (ne címkézzen)!
+
+   | ?- length(L, 3), domain(L, 1, 4), novo(L, 1).
+   L = [_A,_B,_C], _A in 1..2, _B in 2..3, _C in 3..4 ? ;
+   no
+   | ?- length(L, 3), domain(L, 1, 4), novo(L, 1), labeling([], L).
+   L = [1,2,3] ? ;
+   L = [1,2,4] ? ;
+   L = [1,3,4] ? ;
+   L = [2,3,4] ? ; no
+   | ?- length(L, 3), domain(L, 1, 5), novo(L, 2).
+   L = [1,3,5] ? ; no
+   | ?- length(L, 3), domain(L, 1, 4), novo(L, 2).
+   no
+
+2. % sudoku_simple(?Matrix, +N):
+   % Matrix egy N*N-es mátrix amely 1 és N közé esõ számokból áll.  Minden
+   % sorban és oszlopban a számok páronként különbözõek.   
+
+   % Az eljárás ne hozzon létre választási pontot (ne címkézzen)!
+
+   | ?- Mx = [[3,1|_]|_], sudoku_simple(Mx, 3), append(Mx, _V), labeling([],_V).
+   Mx = [[3,1,2],[1,2,3],[2,3,1]] ? ;
+   Mx = [[3,1,2],[2,3,1],[1,2,3]] ? ; no
+
+3. Egy számlistában lokális szélsõértéknek hívunk egy elemet, ha mindkét
+   szomszédjánál határozottan nagyobb, vagy mindkettõnél határozottan kisebb.
+
+   % szeszam(+L, ?K): az L listában levõ szélsõértéknek száma K.
+   % Az eljárás ne hozzon létre választási pontot (ne címkézzen)!
+
+   | ?- L=[1,_,_,_], domain(L, 1, 4), szeszam(L, 2), labeling([], L).
+   L = [1,3,2,4] ? ;
+   L = [1,4,2,3] ? ; no
+
+4. Egy számlistában balról láthatónak hívunk egy elemet, ha az
+   határozottan nagyobb az összes õt megelõzõ elemnél.
+
+   % latszam(+L, ?K): az L listában levõ balról látható elemek száma K.  
+   % Az eljárás ne hozzon létre választási pontot (ne címkézzen)!
+
+   | ?- L=[_,_,2,_], domain(L, 1, 4), all_distinct(L), latszam(L, 3), 
+        labeling([], L).
+   L = [1,3,2,4] ? ; no
+
+5. % panorama(+N, +Latvanyok, ?Lakotelep):
+   % Lakotelep egy N*N-es mátrix, amely egy lakótelep alaprajzát adja
+   % ki. A mátrix elemei az egyes épületek magasságát mutatják. Minden
+   % sorban es minden oszlopban különbözõ magasságúak az épületek és ezek
+   % a magasságok az 1..N tartományból kerülnek ki. Latvanyok egy olyan
+   % lista, amelynek elemei bal(I,K), felul(J,K), jobb(I,K), alul(J,K)
+   % alakú Prolog kifejezések, ahol I, J és K egyaránt az 1..N
+   % intervallumba esik. A Latvanyok listában elõforduló bal(I,K) elem
+   % azt a korlátozást fejezi ki, hogy a lakótelep I-edik sorát balról
+   % nézve K ház látszik, a felul(J,K) azt, hogy a lakótelep J-edik
+   % oszlopát felülrõl nézve K ház látszik, sít.
+
+   % Az eljárás sorolja fel az összes megoldást, úgy hogy csak a
+   % labeling/2 könyvtári eljárás hívása hoz létre választási pontot!
+
+   | ?- panorama(4, [bal(1,2),bal(3,2),felul(2,3),felul(4,3),
+                     jobb(2,3),jobb(4,1),alul(1,3),alul(3,3)], Mx).
+   Mx = [[3,1,4,2],[4,2,3,1],[2,4,1,3],[1,3,2,4]] ? ; no
