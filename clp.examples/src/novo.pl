@@ -25,7 +25,6 @@ szeszam([X,Y,Z|Tail], K):-
 szeszam([], _).
 
 makeSzeszam(X, Y, Z, K0, K1):-
-        write('testing '), write(X), write(Y), write(Z), nl,
         (((X#<Y) #/\ (Y#>Z)) #\/ ((X#>Y) #/\ (Y#<Z))) #<=> S,
         S #=1,
         K1 is K0-S
