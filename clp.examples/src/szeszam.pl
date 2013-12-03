@@ -14,8 +14,7 @@ szeszam([X,Y,Z|Tail], K):-
  
 szeszam([], _).
 
+
 makeSzeszam(X, Y, Z, K0, K1):-
-        (((X#<Y) #/\ (Y#>Z)) #\/ ((X#>Y) #/\ (Y#<Z))) #<=> S,
-        S #=1,
-        K1 is K0-S
-        .
+       (((X#<Y) #/\ (Y#>Z)) #\/ ((X#>Y) #/\ (Y#<Z))) #<=> S,
+       (S#=1, K1 is K0-1; S#=0, K1 is K0).
