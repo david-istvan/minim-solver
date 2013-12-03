@@ -19,10 +19,9 @@ latszam2(_, [], _).
 
 makeLatszam(CM, Y, K0, K1, NM):-
         Y #> CM #<=> S,
-        S #= 1,
-        K1 is K0-S,
-        (Y#>=CM, NM#=Y; Y#<CM, NM#=CM)
+        (
+           S #= 1, K1 is K0-1, NM #= Y
+        ;
+           S #= 0, K1 is K0, NM #= CM
+        )
         .
-
-getMax(CM, X, NM):-
-        (X>=CM, NM=X; X<CM, NM=CM).
