@@ -1,37 +1,28 @@
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
 
-latszam(L, N):-
-        makeLatszam(L, N, N1),
+latszam([X|Ls], N):-
+        latszam2(X, Ls, N).
+        
+latszam2(CM, [Y|Ls], K):-
+        makeLatszam(CM, Y, K, K1, NM),
         (
-           without_last(L, WL),
-           length(WL, LWL),
-           LWL > 0
+           length(Ls, Lt), Lt > 0
         ->
-           latszam(WL, N1)
+           latszam2(NM, Ls, K1)
         ;
-           N1 #= 0
-        ).
+           K1 #= 0
+        )
+        .
 
-makeLatszam(L, N0, N1):-
-        lastIsMax(L) #<=> S,
-        S #=1,
-        N1 is N0-S.
+latszam2(_, [], _).        
 
-lastIsMax([_]).
-lastIsMax(L):-
-        without_last(L, WL),
-        last(L, LE),
-        elementIsMax(WL, LE).
+makeLatszam(CM, Y, K0, K1, NM):-
+        Y #> CM #<=> S,
+        S #= 1,
+        K1 is K0-S,
+        (Y#>=CM, NM#=Y; Y#<CM, NM#=CM)
+        .
 
-elementIsMax([], _).
-elementIsMax(L, E):-
-        last(L, LE),
-        E > LE,
-        without_last(L, WL),
-        elementIsMax(WL, E).
-
-
-without_last([_], []).
-without_last([X|Xs], [X|WithoutLast]):-
-        without_last(Xs, WithoutLast).
+getMax(CM, X, NM):-
+        (X>=CM, NM=X; X<CM, NM=CM).
