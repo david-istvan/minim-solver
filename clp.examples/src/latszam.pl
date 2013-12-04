@@ -2,7 +2,8 @@
 :- use_module(library(lists)).
 
 latszam([X|Ls], N):-
-        latszam2(X, Ls, N).
+        K is N-1,
+        latszam2(X, Ls, K).
         
 latszam2(CM, [Y|Ls], K):-
         makeLatszam(CM, Y, K, K1, NM),
@@ -15,13 +16,17 @@ latszam2(CM, [Y|Ls], K):-
         )
         .
 
-latszam2(_, [], _).        
+latszam2(_, [], _).
 
 makeLatszam(CM, Y, K0, K1, NM):-
         Y #> CM #<=> S,
         (
-           S #= 1, K1 is K0-1, NM #= Y
+           S#=1,
+           K1 is K0-1,
+           NM = Y
         ;
-           S #= 0, K1 is K0, NM #= CM
+           S#=0,
+           K1 is K0,
+           NM = CM
         )
         .
