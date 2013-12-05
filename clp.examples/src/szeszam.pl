@@ -1,20 +1,11 @@
 :- use_module(library(clpfd)).
-:- use_module(library(lists)).
 
-szeszam([X,Y,Z|Tail], K):-
+szeszam([X|L], K):-
+        L = [Y,Z|_],!,
         makeSzeszam(X, Y, Z, K, K1),
-        (
-           length(Tail,Lt), Lt>0
-        ->
-           szeszam([Y,Z|Tail], K1)
-        ;
-           K1 #= 0
-        )
-        .
- 
-szeszam([], _).
-
+        szeszam(L, K1).
+szeszam(_, 0).
 
 makeSzeszam(X, Y, Z, K0, K1):-
        (((X#<Y) #/\ (Y#>Z)) #\/ ((X#>Y) #/\ (Y#<Z))) #<=> S,
-       (S#=1, K1 is K0-1; S#=0, K1 is K0).
+       K1#=K0-S.

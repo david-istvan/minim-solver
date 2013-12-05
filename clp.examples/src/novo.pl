@@ -2,11 +2,9 @@
 :- use_module(library(lists)).
 
 novo([X|Ls], N):-
-        novo(X, Ls, N).
+        novo(Ls, X, N).
 
-novo(X, [Y|Ls], N):-
+novo([Y|Ls], X, N):-
         Y-X#>=N,
-        novo(Y, Ls, N)      
-        .
-
-novo(_, [], _).
+        novo(Ls, Y, N).
+novo([], _, _).
