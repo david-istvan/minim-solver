@@ -2,8 +2,15 @@
 :- use_module(library(lists)).
 
 sudoku_simple(Rows, N):-
+        length(Rows, N),
+        expandElementsInList(Rows, N),
         append(Rows, Vs),
         domain(Vs, 1, N),
         maplist(all_distinct, Rows),
         transpose(Rows, Columns),
         maplist(all_distinct, Columns).
+
+expandElementsInList([X|Tail], N):-
+        length(X, N),
+        expandElementsInList(Tail, N).
+expandElementsInList([], _).
