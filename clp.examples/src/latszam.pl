@@ -8,25 +8,20 @@ latszam([X|Ls], N):-
 latszam2(CM, [Y|Ls], K):-
         makeLatszam(CM, Y, K, K1, NM),
         (
-           length(Ls, Lt), Lt > 0
+           Ls \== []
         ->
            latszam2(NM, Ls, K1)
         ;
            K1 #= 0
-        )
-        .
-
-latszam2(_, [], _).
+        ).
 
 makeLatszam(CM, Y, K0, K1, NM):-
         Y #> CM #<=> S,
-        (
-           S#=1,
-           K1 is K0-1,
-           NM = Y
-        ;
-           S#=0,
-           K1 is K0,
-           NM = CM
-        )
-        .
+        K1 #= K0-S,
+        max(CM, Y, NM).
+
+max(X, X, X).
+max(X, Y, X):-
+        X #> Y.
+max(X, Y, Y):-
+        Y #> X.
