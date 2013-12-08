@@ -1,15 +1,16 @@
+:- module(latszam, [latszam/2]).
 :- use_module(library(clpfd)).
 
 latszam([X|Ls], N):-
         K is N-1,
-        latszam2(X, Ls, K).
+        latszam(X, Ls, K).
         
-latszam2(CM, [Y|Ls], K):-
+latszam(CM, [Y|Ls], K):-
         makeLatszam(CM, Y, K, K1, NM),
         (
            Ls \== []
         ->
-           latszam2(NM, Ls, K1)
+           latszam(NM, Ls, K1)
         ;
            K1 #= 0
         ).

@@ -1,3 +1,4 @@
+:- module(sudoku_simple, [sudoku_simple/2, expandElementsInList/2]).
 :- use_module(library(clpfd)).
 :- use_module(library(lists)).
 
