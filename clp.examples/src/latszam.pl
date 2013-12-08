@@ -1,5 +1,4 @@
 :- use_module(library(clpfd)).
-:- use_module(library(lists)).
 
 latszam([X|Ls], N):-
         K is N-1,
