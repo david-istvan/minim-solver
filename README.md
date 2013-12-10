@@ -3,7 +3,7 @@ minim-solver
 
 This project delivers a Prolog-based program for finding the size of the optimal solution (the smallest reachable graph) from a given state of the [Minim game](http://www.kongregate.com/games/atomiccicada/minim). The state is represented by the list of the node weights and the list of edges.
  * project [minim](https://github.com/david-istvan/minim-solver/tree/master/minim) contains the Prolog code. ([SICStus Prolog](http://sicstus.sics.se/) was used.)
- * project [minim.java](https://github.com/david-istvan/minim-solver/tree/master/minim.java) provides an API for reaching the Prolog code from Java. (Based on the [Jasper](http://sicstus.sics.se/sicstus/docs/3.7.1/html/sicstus_12.html) Prolog-Java interface).
+ * project [minim.java](https://github.com/david-istvan/minim-solver/tree/master/minim.java) provides an API for reaching the Prolog code from Java. (Based on the [Jasper](http://sicstus.sics.se/sicstus/docs/3.7.1/html/sicstus_12.html) Prolog-Java interface. Please, add your own jasper.jar library to the classpath prior to compiling the project).
 
 These pages usually cover the obstacles to overcome when getting started:
  * [Fundamentals on mixing Java and Prolog via the Jasper library](http://sicstus.sics.se/sicstus/docs/3.7.1/html/sicstus_12.html)
