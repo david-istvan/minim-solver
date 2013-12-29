@@ -63,7 +63,9 @@ merge(X-Y, WL+EL+LID, G1):-
         next_id(WL, LID, NextId),
         mergeWeights(X, Y, NextId, WL, WL1),
         mergeEdges(X, Y, NextId, EL, EL1),
-        G1 = WL1+EL1+NextId.
+        remove_dups(EL1, EL2),
+        remove_dups(WL1, WL2),
+        G1 = WL2+EL2+NextId.
 
 /*
  * Merges the weight list by selecting two nodes
