@@ -27,7 +27,7 @@ compare(szp_pl, di_ka).
 %compare(szp_pl, szp_pl).
 
 test :-
-	test(15, 20, 35).
+	test(16, 20, 35).
 
 test(N, EPct, WPct) :-
 	compare(Mod1, Mod2),
